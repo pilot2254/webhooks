@@ -17,6 +17,14 @@
 //
 
 
+struct stats
+{
+        int chunks{};
+        int files{};
+        int webhooks{};
+};
+
+
 int main()
 {
         std::filesystem::remove_all(FOLDER);
@@ -25,6 +33,8 @@ int main()
         std::filesystem::path folder = FOLDER;
         std::filesystem::path chunk{};
         std::filesystem::path file{};
+
+        stats stats;
 
         for(int i{}; i < CHUNKS; i++)
         {
@@ -42,12 +52,19 @@ int main()
                                 for(int k{}; k < LINES; k++)
                                 {
                                         current_file << generate_webhook() << '\n';
+                                        stats.webhooks++;
                                 }
                         }
 
                         current_file.close();
+                        stats.files++;
                 }
+
+                stats.chunks++;
         }
+
+        std::cout << "done" << '\n';
+        printf("finished with %d chunks, %d files and %d webhooks",stats.chunks, stats.files, stats.webhooks);
 
         //std::cout << generate_webhook();
 
