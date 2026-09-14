@@ -1,13 +1,15 @@
-#include <cstdlib>
-#include <string>
+#pragma once
+
+#include <cstdint>
 #include <random>
+#include <string>
 
 inline uint64_t generate_id()
 {
         static std::random_device rd;
         static std::mt19937_64 gen(rd());
 
-        std::uniform_int_distribution<uint64_t> dist(1000000000000000000ULL, 9999999999999999999ULL);
+        static std::uniform_int_distribution<uint64_t> dist(1000000000000000000ULL, 9999999999999999999ULL);
 
         return dist(gen);
 }
@@ -16,17 +18,16 @@ inline std::string generate_token()
 {
         static constexpr char alphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" "abcdefghijklmnopqrstuvwxyz" "0123456789-_";
 
-        std::random_device rd;
-        
-        int length = sizeof(alphabet)/sizeof(char) - 1; //because i dont want to hardcode 64
+        static constexpr std::size_t length = sizeof(alphabet) - 1;
 
-        std::string result{};
-        result.reserve(length);
+        static std::random_device rd;
+        static std::mt19937_64 gen(rd());
+        static std::uniform_int_distribution<std::size_t> dist(0, length - 1);
 
-        for (int i = 0; i < length; ++i)
-        {
-                result += alphabet[rd() % length];
-        }
+        std::string result;
+        result.resize(length);
+
+        for (char &c : result) c = alphabet[dist(gen)];
 
         return result;
 }
