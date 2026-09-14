@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include <chrono>
 
 #include "generator.hpp"
 
@@ -9,9 +10,9 @@
 
 
 #define FOLDER  "generated"     //folder name
-#define CHUNKS  2               //number of chunks aka subfolders
-#define FILES   2               //number of files inside each chunk
-#define LINES   100             //number of lines (webhooks) inside each file
+#define CHUNKS  10              //number of chunks aka subfolders
+#define FILES   10              //number of files inside each chunk
+#define LINES   10              //number of lines (webhooks) inside each file
 
 
 //
@@ -27,6 +28,8 @@ struct stats
 
 int main()
 {
+        auto start = std::chrono::steady_clock::now();
+
         std::filesystem::remove_all(FOLDER);
         std::filesystem::create_directory(FOLDER);
 
@@ -63,10 +66,11 @@ int main()
                 stats.chunks++;
         }
 
-        std::cout << "done" << '\n';
-        printf("finished with %d chunks, %d files and %d webhooks",stats.chunks, stats.files, stats.webhooks);
+        auto end = std::chrono::steady_clock::now();
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
-        //std::cout << generate_webhook();
+        printf("finished in %dms\n", elapsed.count());
+        printf("generated %d chunks, %d files and %d webhooks",stats.chunks, stats.files, stats.webhooks);
 
         return 0;
 }
