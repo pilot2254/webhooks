@@ -1,8 +1,6 @@
 #pragma once
 
-#include <cstdint>
-#include <random>
-#include <string>
+#include "includes.hpp"
 
 inline uint64_t generate_id()
 {
