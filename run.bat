@@ -1,2 +1,2 @@
-g++ main.cpp -o main.exe
-.\main.exe
+g++ -m64 main.cpp -o funny.exe -static-libgcc -static-libstdc++
+.\funny.exe

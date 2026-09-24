@@ -1,9 +1,11 @@
 #include "includes.hpp"
 
+// will generate 10m webhooks in 3-4 seconds
+
 #define FOLDER  "generated"     //folder name
 #define CHUNKS  10              //number of chunks aka subfolders
-#define FILES   10              //number of files inside each chunk
-#define LINES   10              //number of lines (webhooks) inside each file
+#define FILES   100             //number of files inside each chunk
+#define LINES   1000            //number of lines (webhooks) inside each file
 
 
 //
